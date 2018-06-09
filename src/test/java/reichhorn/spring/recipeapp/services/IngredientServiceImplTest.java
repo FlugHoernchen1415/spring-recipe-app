@@ -5,11 +5,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import reichhorn.spring.recipeapp.commands.IngredientCommand;
+import reichhorn.spring.recipeapp.converters.IngredientCommandToIngredient;
 import reichhorn.spring.recipeapp.converters.IngredientToIngredientCommand;
+import reichhorn.spring.recipeapp.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import reichhorn.spring.recipeapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import reichhorn.spring.recipeapp.model.Ingredient;
 import reichhorn.spring.recipeapp.model.Recipe;
 import reichhorn.spring.recipeapp.repositories.RecipeRepository;
+import reichhorn.spring.recipeapp.repositories.UnitOfMeasureRepository;
 
 import java.util.Optional;
 
@@ -22,22 +25,28 @@ import static org.mockito.Mockito.when;
 public class IngredientServiceImplTest {
 
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
+    private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
     @Mock
     RecipeRepository recipeRepository;
+
+    @Mock
+    UnitOfMeasureRepository unitOfMeasureRepository;
 
     IngredientService ingredientService;
 
     // init converters
     public IngredientServiceImplTest() {
         this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+        this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
     }
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, recipeRepository);
+        ingredientService = new IngredientServiceImpl(ingredientToIngredientCommand, ingredientCommandToIngredient,
+                recipeRepository, unitOfMeasureRepository);
     }
 
     @Test
