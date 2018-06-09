@@ -1,5 +1,6 @@
 package reichhorn.spring.recipeapp.services;
 
+import reichhorn.spring.recipeapp.commands.IngredientCommand;
 import reichhorn.spring.recipeapp.commands.RecipeCommand;
 import reichhorn.spring.recipeapp.model.Recipe;
 
@@ -12,4 +13,8 @@ public interface RecipeService {
     Recipe findById(Long l);
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
+
+    RecipeCommand findCommandById(Long l);
+
+    void deleteById(Long l);
 }
