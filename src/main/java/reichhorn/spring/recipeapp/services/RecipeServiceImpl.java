@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reichhorn.spring.recipeapp.commands.RecipeCommand;
 import reichhorn.spring.recipeapp.converters.RecipeCommandToRecipe;
 import reichhorn.spring.recipeapp.converters.RecipeToRecipeCommand;
+import reichhorn.spring.recipeapp.exceptions.NotFoundException;
 import reichhorn.spring.recipeapp.model.Recipe;
 import reichhorn.spring.recipeapp.repositories.RecipeRepository;
 
@@ -41,7 +42,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(l);
 
         if(!recipeOptional.isPresent()) {
-            throw new RuntimeException("Recipe Not Found!");
+            throw new NotFoundException("Recipe Not Found, for id: " + l.toString());
         }
 
         return recipeOptional.get();

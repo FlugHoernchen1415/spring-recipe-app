@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import reichhorn.spring.recipeapp.converters.RecipeCommandToRecipe;
 import reichhorn.spring.recipeapp.converters.RecipeToRecipeCommand;
+import reichhorn.spring.recipeapp.exceptions.NotFoundException;
 import reichhorn.spring.recipeapp.model.Recipe;
 import reichhorn.spring.recipeapp.repositories.RecipeRepository;
 
@@ -33,6 +34,15 @@ public class RecipeServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommand, recipeCommandToRecipe);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdTestNotFound() throws Exception {
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
     }
 
     @Test
